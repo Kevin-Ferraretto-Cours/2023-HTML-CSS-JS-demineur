@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Démineur</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+	</head>
+	<body>
+		<main>
+			<h1>Démineur</h1>
+			<div id="config">
+				<label for="difficulty">Difficulté :</label>
+				<select name="difficulty" id="difficulty" title="difficulty">
+					<option value=1>Débutant : 9x9 cases, 10 bombes</option>
+					<option value=2>Intermédiaire : 16x16 cases, 40 bombes</option>
+					<option value=3>Expert : 22x22 cases, 100 bombes</option>
+					<option value=4>Maître : 30x30 cases, 250 bombes</option>
+				</select>
+				<button type="button" id="create">Créer</button>
+				<button type="button" id="restart">Recommencer</button>
+				<span><strong>Time:</strong></span><span id="time">00:00.000</span>
+			</div>
+			<h2 id="state">Commencez par créer une grille pour jouer !</h2>
+			<section>
+				<div id="areaGame"></div>
+			</section>
+			<article>
+				<h2>Liste des gagnant</h2>
+				<ul id="winners">
+				</ul>
+			</article>
+		</main>
+		<script src="js/jeu.js"></script>
+	</body>
+</html>
