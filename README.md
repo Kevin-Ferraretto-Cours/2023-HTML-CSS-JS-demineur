@@ -54,7 +54,7 @@ Accédez directement au jeu via mon site WEB :
 ## 📈 Roadmap
 
 - [ ] Ajout d'un système de sauvegarde des meilleurs temps
-- [ ] Mode sombre
+- [x] Mode sombre
 - [ ] Option pour créer des grilles personnalisées
 - [ ] Version mobile optimisée avec contrôles tactiles
 - [ ] Sons et effets visuels améliorés
