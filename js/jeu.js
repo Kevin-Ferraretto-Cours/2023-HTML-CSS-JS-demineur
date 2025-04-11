@@ -3,11 +3,11 @@ let rows, columns, oldRows, oldColumns;
 //Variables to retrieve the bombs, bombsLeft and bombsRevealed of the difficulty
 let bombs, bombsLeft , bombsRevealed;
 //Variable used to indicate the state of progress of the game.
-let state = document.getElementById("state"); 
+let state = document.getElementById("state");
 //Variable used to create the game, position images and display box status (mines, flag, etc.).
-let table, images, cases; 
+let table, images, cases;
 //Variable for ending the game if the user has lost or won (to avoid clicking again when they've lost).
-let playable; 
+let playable;
 //Variable for stopwatch
 let timeEl = document.getElementById('time'), timer = null, startTime, endTime;
 
@@ -17,8 +17,8 @@ function validationConfig() {
   switch (difficulty) {
     case "1":
       rows = 9;
-	    columns = 9;
-	    bombs = 10;
+      columns = 9;
+      bombs = 10;
       break;
     case "2":
       rows = 16;
@@ -68,7 +68,11 @@ function resetImg() {
 function initializationGame() {
   document.getElementById("restart").disabled = true;
   let div = document.getElementById("areaGame");
-  div.style.width = columns * 30 + "px";
+
+  // Configuration CSS Grid au lieu de définir une largeur fixe
+  div.style.gridTemplateColumns = `repeat(${columns}, 30px)`;
+  div.style.gridTemplateRows = `repeat(${rows}, 30px)`;
+
   playable = true;
   bombsLeft = bombs;
   bombsRevealed = 0;
@@ -89,10 +93,10 @@ function initializationGame() {
   let placement_mines = 0;
   //The while here is used for random mine placement
   while (placement_mines < bombs) {
-    let column = Math.floor(Math.random() * columns); 
+    let column = Math.floor(Math.random() * columns);
     let row = Math.floor(Math.random() * rows);
-    if (table[row][column] !== 'bomb') { 
-      table[row][column] = 'bomb'; 
+    if (table[row][column] !== 'bomb') {
+      table[row][column] = 'bomb';
       placement_mines++;
     }
   }
@@ -106,13 +110,13 @@ function increasedDigits() {
     for (let row = 0; row < rows; row++) {
       if (check(row, column) !== 'bomb') {
         table[row][column] = ((check(row + 1, column) === 'bomb') || 0) +
-          ((check(row + 1, column - 1) === 'bomb') || 0) +
-          ((check(row + 1, column + 1) === 'bomb') || 0) +
-          ((check(row - 1, column) === 'bomb') || 0) +
-          ((check(row - 1, column - 1) === 'bomb') || 0) +
-          ((check(row - 1, column + 1) === 'bomb') || 0) +
-          ((check(row, column - 1) === 'bomb') || 0) +
-          ((check(row, column + 1) === 'bomb') || 0);
+            ((check(row + 1, column - 1) === 'bomb') || 0) +
+            ((check(row + 1, column + 1) === 'bomb') || 0) +
+            ((check(row - 1, column) === 'bomb') || 0) +
+            ((check(row - 1, column - 1) === 'bomb') || 0) +
+            ((check(row - 1, column + 1) === 'bomb') || 0) +
+            ((check(row, column - 1) === 'bomb') || 0) +
+            ((check(row, column + 1) === 'bomb') || 0);
       }
     }
   }
@@ -164,7 +168,7 @@ function clickGame(event) {
     }
     //Informs the user of the number of mines remaining
     state.innerHTML = 'Mines restantes : ' + bombsLeft;
-  
+
     if (event.which === 1 && images[row][column] !== 'flag') {
       if (table[row][column] === 'bomb') {
         lost();
@@ -186,8 +190,8 @@ function rightClick(row, column, event) {
     case 'normal':
       if (bombsLeft > 0) {
         cases[row][column].src = 'images/flag.png';
-      bombsLeft--;
-      images[row][column] = 'flag';
+        bombsLeft--;
+        images[row][column] = 'flag';
       }
       break;
     case 'flag':
@@ -203,13 +207,29 @@ function rightClick(row, column, event) {
 function won() {
   stopChrono();
   bombeDefused();
-  let name;
-  while (name === undefined || name === null || name == "") {
-    name = prompt("Saisir votre nom");
+
+  let name = "";
+
+  // Request name until a valid name is provided
+  while (!name || name.trim() === "") {
+    name = prompt("Saisir votre nom", "Joueur");
+
+    // If user cancels, use default name
+    if (name === null) {
+      name = "Anonyme";
+      break;
+    }
+
+    // Delete unnecessary spaces
+    name = name.trim();
   }
+
+  // Save score
   let winnersEl = document.getElementById("winners");
   winnersEl.append(document.createElement('li'));
   winnersEl.lastElementChild.innerHTML = name + ": " + displayTime(endTime - startTime);
+
+  // Interface update
   state.innerHTML = 'Mines Désarmorcées !';
   state.style = "background-color: #6ff42c;";
   document.getElementById("restart").disabled = false;
@@ -231,36 +251,47 @@ function lost() {
 }
 
 //Function to reveal boxes when the user clicks on a box
+// Fonction optimisée pour révéler les cases
 function revealedCase(row, column) {
+  // Si la case est déjà révélée ou contient un drapeau, on ne fait rien
+  if (images[row][column] !== 'normal') {
+    return;
+  }
+
+  // Révéler la case actuelle
   cases[row][column].src = 'images/' + table[row][column] + '.png';
-  if (table[row][column] !== 'bomb' && images[row][column] === 'normal') {
+
+  // Mettre à jour le compteur et l'état de la case
+  if (table[row][column] !== 'bomb') {
     bombsRevealed++;
   }
   images[row][column] = table[row][column];
+
+  // Si c'est une case vide (0), on révèle les cases adjacentes
   if (table[row][column] === 0) {
-    if (column > 0 && images[row][column - 1] === 'normal') {
-      revealedCase(row, column - 1);
-    }
-    if (column < (columns - 1) && images[row][+column + 1] === 'normal') {
-      revealedCase(row, +column + 1);
-    }
-    if (row < (rows - 1) && images[+row + 1][column] === 'normal') {
-      revealedCase(+row + 1, column);
-    }
-    if (row > 0 && images[row - 1][column] === 'normal'){
-      revealedCase(row - 1, column);
-    }
-    if (column > 0 && row > 0 && images[row - 1][column - 1] === 'normal'){
-      revealedCase(row - 1, column - 1);
-    }
-    if (column > 0 && row < (rows - 1) && images[+row + 1][column - 1] === 'normal') {
-      revealedCase(+row + 1, column - 1);
-    }
-    if (column < (columns - 1) && row < (rows - 1) && images[+row + 1][+column + 1] === 'normal'){
-      revealedCase(+row + 1, +column + 1);
-    }
-    if (column < (columns - 1) && row > 0 && images[row - 1][+column + 1] === 'normal') {
-      revealedCase(row - 1, +column + 1);
+    // Définir les 8 directions possibles (horizontal, vertical et diagonal)
+    const directions = [
+      [-1, -1], [-1, 0], [-1, 1],
+      [0, -1],           [0, 1],
+      [1, -1],  [1, 0],  [1, 1]
+    ];
+
+    // Parcourir toutes les directions
+    for (const [dx, dy] of directions) {
+      const newRow = row + dx;
+      const newColumn = column + dy;
+
+      // Vérifier si la nouvelle position est valide
+      if (
+          newRow >= 0 &&
+          newRow < rows &&
+          newColumn >= 0 &&
+          newColumn < columns &&
+          images[newRow][newColumn] === 'normal'
+      ) {
+        // Appel récursif pour révéler les cases adjacentes
+        revealedCase(newRow, newColumn);
+      }
     }
   }
 }
@@ -296,21 +327,44 @@ function displayTime(duration) {
       sec = ((duration - ms) / 1000) % 60,
       min = (duration - ms - (sec * 1000)) / 1000 / 60;
   return  (min + "").padStart(2, "0") + ":" +
-          (sec + "").padStart(2, "0") + "." +
-          (ms + "").padStart(3, "0");
+      (sec + "").padStart(2, "0") + "." +
+      (ms + "").padStart(3, "0");
+}
+
+// Gestion du responsive
+function adjustGridSize() {
+  if (window.innerWidth <= 480) {
+    // Très petits écrans
+    document.getElementById("areaGame").style.gridTemplateColumns = `repeat(${columns}, 20px)`;
+    document.getElementById("areaGame").style.gridTemplateRows = `repeat(${rows}, 20px)`;
+  } else if (window.innerWidth <= 768) {
+    // Petits écrans
+    document.getElementById("areaGame").style.gridTemplateColumns = `repeat(${columns}, 25px)`;
+    document.getElementById("areaGame").style.gridTemplateRows = `repeat(${rows}, 25px)`;
+  } else {
+    // Écrans normaux
+    document.getElementById("areaGame").style.gridTemplateColumns = `repeat(${columns}, 30px)`;
+    document.getElementById("areaGame").style.gridTemplateRows = `repeat(${rows}, 30px)`;
+  }
 }
 
 // Fonction pour initialiser la grille débutante par défaut
 function defaultGrid() {
+  // Définir la difficulté sur "Débutant"
   document.getElementById("difficulty").value = "1";
+  // Appeler validationConfig pour créer la grille
   validationConfig();
 }
 
 document.getElementById('create').addEventListener('click', validationConfig);
 document.getElementById('restart').addEventListener('click', restart);
 //Disable the restart button
-document.getElementById("restart").disabled = true; 
+document.getElementById("restart").disabled = true;
 //Disable the right click
 document.oncontextmenu = new Function("return false");
+
 // Créer une grille par défaut au chargement de la page
 window.addEventListener('load', defaultGrid);
+
+// Ajuster la taille de la grille lors du redimensionnement de la fenêtre
+window.addEventListener('resize', adjustGridSize);
