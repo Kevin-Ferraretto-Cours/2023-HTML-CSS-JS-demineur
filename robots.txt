@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://demineur.kevin-ferraretto.fr/sitemap.xml

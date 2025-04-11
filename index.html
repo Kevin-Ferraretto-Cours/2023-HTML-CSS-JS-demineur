@@ -1,35 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<title>Démineur</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="css/index.css">
-	</head>
-	<body>
-		<main>
-			<h1>Démineur</h1>
-			<div id="config">
-				<label for="difficulty">Difficulté :</label>
-				<select name="difficulty" id="difficulty" title="difficulty">
-					<option value=1>Débutant : 9x9 cases, 10 bombes</option>
-					<option value=2>Intermédiaire : 16x16 cases, 40 bombes</option>
-					<option value=3>Expert : 22x22 cases, 100 bombes</option>
-					<option value=4>Maître : 30x30 cases, 250 bombes</option>
-				</select>
-				<button type="button" id="create">Créer</button>
-				<button type="button" id="restart">Recommencer</button>
-				<span><strong>Time:</strong></span><span id="time">00:00.000</span>
-			</div>
-			<h2 id="state">Commencez par créer une grille pour jouer !</h2>
-			<section>
-				<div id="areaGame"></div>
-			</section>
-			<article>
-				<h2>Liste des gagnant</h2>
-				<ul id="winners">
-				</ul>
-			</article>
-		</main>
-		<script src="js/jeu.js"></script>
-	</body>
+<head>
+	<title>Démineur - Jeu de désamorçage de mines en ligne</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Jouez au Démineur en ligne gratuitement. Plusieurs niveaux de difficulté disponibles: débutant, intermédiaire, expert et maître. Désamorcez les mines et battez les records!">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="démineur, jeu, minesweeper, puzzle, stratégie, mines, bombes, jeu en ligne">
+	<meta name="author" content="Kevin Ferraretto">
+	<meta name="robots" content="index, follow">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://demineur.kevin-ferraretto.fr/">
+	<meta property="og:title" content="Démineur - Jeu de désamorçage de mines en ligne">
+	<meta property="og:description" content="Jouez au Démineur en ligne gratuitement. Plusieurs niveaux de difficulté disponibles: débutant, intermédiaire, expert et maître.">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="./images/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="./images/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="./images/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="./images/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Demineur" />
+	<link rel="manifest" href="./site.webmanifest">
+
+	<!-- Styles -->
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+
+	<!-- Canonical URL -->
+	<link rel="canonical" href="https://demineur.kevin-ferraretto.fr/">
+</head>
+<body>
+<header>
+	<h1>Démineur</h1>
+</header>
+<main>
+	<div id="config">
+		<label for="difficulty">Difficulté :</label>
+		<select name="difficulty" id="difficulty" title="Choisir le niveau de difficulté">
+			<option value=1>Débutant : 9x9 cases, 10 bombes</option>
+			<option value=2>Intermédiaire : 16x16 cases, 40 bombes</option>
+			<option value=3>Expert : 22x22 cases, 100 bombes</option>
+			<option value=4>Maître : 30x30 cases, 250 bombes</option>
+		</select>
+		<button type="button" id="create" aria-label="Créer une nouvelle grille">Créer</button>
+		<button type="button" id="restart" aria-label="Recommencer la partie">Recommencer</button>
+		<div class="timer">
+			<span><strong>Temps :</strong></span><span id="time">00:00.000</span>
+		</div>
+	</div>
+	<h2 id="state">Commencez par créer une grille pour jouer !</h2>
+	<section aria-label="Zone de jeu">
+		<div id="areaGame" role="application" aria-live="polite"></div>
+	</section>
+	<section>
+		<h2>Liste des gagnants</h2>
+		<ul id="winners" aria-label="Classement des meilleurs scores"></ul>
+	</section>
+</main>
+
+<script src="js/jeu.js"></script>
+</body>
 </html>

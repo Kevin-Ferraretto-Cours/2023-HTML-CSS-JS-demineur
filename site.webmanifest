@@ -1,0 +1,37 @@
+{
+  "name": "Démineur",
+  "short_name": "Démineur",
+  "description": "Jeu de désamorçage de mines en ligne avec plusieurs niveaux de difficulté",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "orientation": "portrait-primary",
+  "icons": [
+      {
+        "src": "./images/favicon/favicon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/favicon/apple-touch-icon.png",
+        "sizes": "180x180",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/favicon/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "./images/favicon/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+  ],
+  "categories": ["games", "entertainment"],
+  "lang": "fr",
+  "dir": "ltr"
+}
