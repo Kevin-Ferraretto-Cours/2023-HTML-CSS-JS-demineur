@@ -42,6 +42,7 @@ function validationConfig() {
   oldColumns = columns;
   oldRows = rows;
   initializationGame();
+  adjustGridSize();
 }
 
 //Function restart when the user presses the restart button
