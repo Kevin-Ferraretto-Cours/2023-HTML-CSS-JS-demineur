@@ -300,9 +300,17 @@ function displayTime(duration) {
           (ms + "").padStart(3, "0");
 }
 
+// Fonction pour initialiser la grille débutante par défaut
+function defaultGrid() {
+  document.getElementById("difficulty").value = "1";
+  validationConfig();
+}
+
 document.getElementById('create').addEventListener('click', validationConfig);
 document.getElementById('restart').addEventListener('click', restart);
 //Disable the restart button
 document.getElementById("restart").disabled = true; 
 //Disable the right click
 document.oncontextmenu = new Function("return false");
+// Créer une grille par défaut au chargement de la page
+window.addEventListener('load', defaultGrid);
