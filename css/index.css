@@ -1,4 +1,4 @@
-/* Variables globales de couleurs */
+/* Variables globales de couleurs - Mode clair (par défaut) */
 :root {
     --primary-color: #3498db;
     --accent-color: #2980b9;
@@ -10,25 +10,56 @@
     --light-text: #ecf0f1;
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --body-bg: #f5f7fa;
+    --main-bg: white;
+    --config-bg: #f5f7fa;
+    --time-bg: #34495e;
+    --time-text: white;
+    --winners-bg: white;
+    --grid-bg: #34495e;
+}
+
+/* Variables pour le mode sombre */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #3498db;
+        --accent-color: #2980b9;
+        --success-color: #2ecc71;
+        --danger-color: #e74c3c;
+        --warning-color: #f39c12;
+        --light-bg: #2c3e50;
+        --dark-text: #ecf0f1;
+        --light-text: #ecf0f1;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        --body-bg: #1a1a1a;
+        --main-bg: #2c3e50;
+        --config-bg: #34495e;
+        --time-bg: #1a1a1a;
+        --time-text: #ecf0f1;
+        --winners-bg: #34495e;
+        --grid-bg: #1a1a1a;
+    }
 }
 
 /* Styles généraux */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--light-bg);
+    background-color: var(--body-bg);
     color: var(--dark-text);
     margin: 0;
     padding: 20px;
     line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 main {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: white;
+    background-color: var(--main-bg);
     border-radius: var(--border-radius);
     padding: 20px;
     box-shadow: var(--box-shadow);
+    transition: background-color 0.3s;
 }
 
 h1, h2 {
@@ -52,8 +83,9 @@ h1 {
     gap: 15px;
     margin-bottom: 25px;
     padding: 15px;
-    background-color: var(--light-bg);
+    background-color: var(--config-bg);
     border-radius: var(--border-radius);
+    transition: background-color 0.3s;
 }
 
 #difficulty {
@@ -61,7 +93,9 @@ h1 {
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
     font-size: 16px;
-    background-color: white;
+    background-color: var(--main-bg);
+    color: var(--dark-text);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 button {
@@ -88,11 +122,12 @@ button:disabled {
 #time {
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    background-color: #34495e;
-    color: white;
+    background-color: var(--time-bg);
+    color: var(--time-text);
     padding: 8px 12px;
     border-radius: var(--border-radius);
     margin-left: 10px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* État du jeu */
@@ -118,18 +153,18 @@ section {
     display: grid;
     /* La grille sera définie dynamiquement par JavaScript */
     gap: 1px;
-    background-color: #34495e;
+    background-color: var(--grid-bg);
     padding: 10px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: fit-content !important; /* Remplace la largeur fixe définie par JS */
     margin: 0 auto;
+    transition: background-color 0.3s;
 }
 
 img {
     width: 30px;
     height: 30px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: transform 0.1s;
     display: block;
 }
@@ -146,8 +181,9 @@ article {
     align-items: center;
     margin-top: 30px;
     padding: 20px;
-    background-color: var(--light-bg);
+    background-color: var(--config-bg);
     border-radius: var(--border-radius);
+    transition: background-color 0.3s;
 }
 
 article h2 {
@@ -164,10 +200,11 @@ article h2 {
 #winners li {
     list-style-type: none;
     padding: 10px 15px;
-    background-color: white;
+    background-color: var(--winners-bg);
     margin-bottom: 8px;
     border-radius: var(--border-radius);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s;
 }
 
 /* Gestion de la réactivité */
@@ -201,4 +238,43 @@ article h2 {
         width: 20px;
         height: 20px;
     }
+}
+
+/* Bouton pour basculer entre mode clair et sombre */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.theme-toggle:hover {
+    background-color: var(--accent-color);
+}
+
+/* Classe pour le mode sombre forcé par JS */
+.dark-theme {
+    --primary-color: #3498db;
+    --accent-color: #2980b9;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-bg: #2c3e50;
+    --dark-text: #ecf0f1;
+    --light-text: #ecf0f1;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --body-bg: #1a1a1a;
+    --main-bg: #2c3e50;
+    --config-bg: #34495e;
+    --time-bg: #1a1a1a;
+    --time-text: #ecf0f1;
+    --winners-bg: #34495e;
+    --grid-bg: #1a1a1a;
 }
